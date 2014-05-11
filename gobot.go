@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
-	"strings"
-	"bufio"
 	"os"
+	"strings"
 )
 
 // spec stores functions for condition and logic to invoke if that condition is
@@ -15,7 +15,9 @@ type spec struct {
 	matchCond func(string) bool
 
 	// 'invoker' function contains logic to execute if 'matchCond' is true.
-	invoker func(string)
+	invoker     func(string)
+	explanation string
+	commands    []string
 }
 
 var (
@@ -56,7 +58,7 @@ func handler() {
 		}
 
 		// trim the input (remove spaces on right)
-		input = strings.TrimRight(input,"\r\n")
+		input = strings.TrimRight(input, "\r\n")
 
 		for _, spec := range specList {
 			if spec.matchCond(input) {
@@ -75,13 +77,18 @@ func init() {
 	var defaultSpecs = []spec{
 		{
 			func(inp string) bool {
-				lowerInp := strings.ToLower( inp )
+				lowerInp := strings.ToLower(inp)
 				return containsString(exitCommands, lowerInp)
 			},
+
 			func(inp string) {
 				fmt.Println("Good bye!")
 				os.Exit(0)
 			},
+
+			"Quits you from the interactive session.",
+
+			exitCommands,
 		},
 	}
 

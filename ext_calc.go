@@ -2,19 +2,27 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"github.com/soniah/evaler"
+	"strings"
 )
 
-func init(){
+func init() {
 	var s = spec{
 		func(inp string) bool {
-			lowerInp := strings.ToLower( inp )
-			return strings.HasPrefix( lowerInp, "calc" )
+			lowerInp := strings.ToLower(inp)
+			return strings.HasPrefix(lowerInp, "calc")
 		},
+
 		func(inp string) {
 			expression := inp[len("calc "):len(inp)]
 			calc(expression)
+		},
+
+		"Evaluates the mathematical expression.",
+
+		[]string{
+			"calc 3+4",
+			"calc 2**2",
 		},
 	}
 	specList = append(specList, s)

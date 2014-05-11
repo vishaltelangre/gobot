@@ -8,12 +8,19 @@ import (
 func init() {
 	var s = spec{
 		func(inp string) bool {
-			lowerInp := strings.ToLower( inp )
-			return strings.HasPrefix( lowerInp, "echo" )
+			lowerInp := strings.ToLower(inp)
+			return strings.HasPrefix(lowerInp, "echo")
 		},
+
 		func(inp string) {
 			toEcho := inp[len("echo "):len(inp)]
 			echo(toEcho)
+		},
+
+		"Echoes provided string back to you.",
+
+		[]string{
+			"echo <something you want to be echoed back to you>",
 		},
 	}
 	specList = append(specList, s)
