@@ -3,15 +3,19 @@ Gobot
 
 I am your pet, baby! I can do anything for you, just tell me...
 
-## Caution!
+## Installation
 
-Bot's training under progress! Feed him/her on your own risk!
+```sh
+go get github.com/vishaltelangre/gobot
+go install githhub.com/vishaltelangre/gobot
+which gobot
+```
 
-:boom:
+## Sneak Peek Usage!
 
-## Installation and Usage
+start `gobot` and type `help` in it.
 
-TODO
+![Gobot Screenshot](https://raw.github.com/vishaltelangre/gobot/master/gobot_preview.png)
 
 ## Copyright and License
 

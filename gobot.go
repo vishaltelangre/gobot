@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -90,9 +91,35 @@ func init() {
 				os.Exit(0)
 			},
 
-			"Quits you from the interactive session.",
+			"Quit from the interactive session.",
 
 			exitCommands,
+		},
+
+		{
+			func(inp string) bool {
+				lowerInp := strings.ToLower(inp)
+				return regexp.MustCompile(`^(help(\s+me)?)?|\?$`).MatchString(lowerInp)
+			},
+
+			func(inp string) {
+				for i, spec := range specList {
+					fmt.Printf("%d.1 %s\n", i+1, spec.explanation)
+					fmt.Printf("%d.2 Commands:\n", i+1)
+					for _, command := range spec.commands {
+						fmt.Printf("  * %s\n", command)
+					}
+					fmt.Println("-----------------------")
+				}
+			},
+
+			"Print nice help.",
+
+			[]string{
+				"help me",
+				"help",
+				"?",
+			},
 		},
 	}
 

@@ -19,7 +19,7 @@ func init() {
 				execCmdAndPrintResult("date +%r")
 			},
 
-			"Gets the current time.",
+			"Get the current time.",
 
 			[]string{
 				"what time is it?",
@@ -38,7 +38,7 @@ func init() {
 				execCmdAndPrintResult("date +%d/%m/%Y")
 			},
 
-			"Gets the current date.",
+			"Get the current date.",
 
 			[]string{
 				"what is today's date?",
@@ -57,7 +57,7 @@ func init() {
 				execCmdAndPrintResult("date +%B")
 			},
 
-			"Gets the current month.",
+			"Get the current month.",
 
 			[]string{
 				"what month is it?",
@@ -76,7 +76,7 @@ func init() {
 				execCmdAndPrintResult("date +%A")
 			},
 
-			"Gets the day of the week.",
+			"Get the day of the week.",
 
 			[]string{
 				"what day is it?",

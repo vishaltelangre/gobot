@@ -18,7 +18,7 @@ func init() {
 			calc(expression)
 		},
 
-		"Evaluates the mathematical expression.",
+		"Evaluate the mathematical expression.",
 
 		[]string{
 			"calc 3+4",

@@ -24,7 +24,7 @@ func init() {
 			c.Run()
 		},
 
-		"Clears the screen.",
+		"Clear the screen.",
 
 		clrscrCommands,
 	}

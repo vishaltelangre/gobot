@@ -17,7 +17,7 @@ func init() {
 			echo(toEcho)
 		},
 
-		"Echoes provided string back to you.",
+		"Echo provided string back to you.",
 
 		[]string{
 			"echo <something you want to be echoed back to you>",
