@@ -15,9 +15,13 @@ type spec struct {
 	matchCond func(string) bool
 
 	// 'invoker' function contains logic to execute if 'matchCond' is true.
-	invoker     func(string)
+	invoker func(string)
+
+	// 'explanation' is the description about the result when 'invoker' executes
 	explanation string
-	commands    []string
+
+	// 'commands' is a list of commands which can be used by the user
+	commands []string
 }
 
 var (

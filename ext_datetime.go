@@ -6,25 +6,87 @@ import (
 )
 
 func init() {
-	var s = spec{
+	var datetimeSpecs = []spec{
+		{
+			func(inp string) bool {
+				var lowerInp = strings.ToLower(inp)
+				re1 := regexp.MustCompile(`^what\s+time\sis\sit\??$`)
+				re2 := regexp.MustCompile(`^what\s+is\sthe\stime\??$`)
+				return re1.MatchString(lowerInp) || re2.MatchString(lowerInp)
+			},
 
-		func(inp string) bool {
-			var lowerInp = strings.ToLower(inp)
-			re1 := regexp.MustCompile(`^what\s+time\sis\sit\??$`)
-			re2 := regexp.MustCompile(`^what\s+is\sthe\stime\??$`)
-			return re1.MatchString(lowerInp) || re2.MatchString(lowerInp)
+			func(inp string) {
+				execCmdAndPrintResult("date +%r")
+			},
+
+			"Gets the current time.",
+
+			[]string{
+				"what time is it?",
+				"what is the time",
+			},
 		},
 
-		func(inp string) {
-			execCmdAndPrintResult("date +\"%r\"")
+		{
+			func(inp string) bool {
+				var lowerInp = strings.ToLower(inp)
+				re := regexp.MustCompile(`^what\s+is\s+((today'?s?|the)\s+)?date\??$`)
+				return re.MatchString(lowerInp)
+			},
+
+			func(inp string) {
+				execCmdAndPrintResult("date +%d/%m/%Y")
+			},
+
+			"Gets the current date.",
+
+			[]string{
+				"what is today's date?",
+				"what is the date",
+			},
 		},
 
-		"Gets the current time.",
+		{
+			func(inp string) bool {
+				var lowerInp = strings.ToLower(inp)
+				re := regexp.MustCompile(`^what\s+month\sis\sit\??$`)
+				return re.MatchString(lowerInp)
+			},
 
-		[]string{
-			"what time is it?",
-			"what is the time",
+			func(inp string) {
+				execCmdAndPrintResult("date +%B")
+			},
+
+			"Gets the current month.",
+
+			[]string{
+				"what month is it?",
+			},
+		},
+
+		{
+			func(inp string) bool {
+				var lowerInp = strings.ToLower(inp)
+				re1 := regexp.MustCompile(`^what\s+day\s+(of\s+the\s+week\s+)?is\s+it\??$`)
+				re2 := regexp.MustCompile(`^what\'?s?\s+today\??$`)
+				return re1.MatchString(lowerInp) || re2.MatchString(lowerInp)
+			},
+
+			func(inp string) {
+				execCmdAndPrintResult("date +%A")
+			},
+
+			"Gets the day of the week.",
+
+			[]string{
+				"what day is it?",
+				"what day of the week is it?",
+				"what's today",
+			},
 		},
 	}
-	specList = append(specList, s)
+
+	for _, spec := range datetimeSpecs {
+		specList = append(specList, spec)
+	}
 }
