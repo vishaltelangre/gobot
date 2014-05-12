@@ -98,8 +98,9 @@ func init() {
 
 		{
 			func(inp string) bool {
-				lowerInp := strings.ToLower(inp)
-				return regexp.MustCompile(`^help(\s+me)?|\?$`).MatchString(lowerInp)
+				lowerInp := strings.TrimSpace(strings.ToLower(inp))
+				re := regexp.MustCompile(`^help(\s+me)?$`)
+				return re.MatchString(lowerInp) || lowerInp == "?"
 			},
 
 			func(inp string) {

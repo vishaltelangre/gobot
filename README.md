@@ -7,7 +7,7 @@ I am your pet, baby! I can do anything for you, just tell me...
 
 ```sh
 go get github.com/vishaltelangre/gobot
-go install githhub.com/vishaltelangre/gobot
+go install github.com/vishaltelangre/gobot
 which gobot
 ```
 
