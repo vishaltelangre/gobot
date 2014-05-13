@@ -23,7 +23,6 @@ func init() {
 			"what is my public ip",
 			"what's my external IP address",
 			"what's my IP?",
-			"wiki <keyword>",
 		},
 	}
 
