@@ -6,14 +6,13 @@ I am your pet, baby! I can do anything for you, just tell me...
 ## Installation
 
 ```sh
-go get github.com/vishaltelangre/gobot
-go install github.com/vishaltelangre/gobot
+go get -u github.com/vishaltelangre/gobot
 which gobot
 ```
 
 ## Sneak Peek Usage!
 
-start `gobot` and type `help` in it.
+start `gobot` and type `help me` in it.
 
 ![Gobot Screenshot](https://raw.github.com/vishaltelangre/gobot/master/gobot_preview.png)
 

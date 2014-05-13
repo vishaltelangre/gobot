@@ -1,9 +1,29 @@
+/*
+ *   ▄████  ▒█████   ▄▄▄▄    ▒█████  ▄▄▄█████▓
+ *  ██▒ ▀█▒▒██▒  ██▒▓█████▄ ▒██▒  ██▒▓  ██▒ ▓▒
+ * ▒██░▄▄▄░▒██░  ██▒▒██▒ ▄██▒██░  ██▒▒ ▓██░ ▒░
+ * ░▓█  ██▓▒██   ██░▒██░█▀  ▒██   ██░░ ▓██▓ ░
+ * ░▒▓███▀▒░ ████▓▒░░▓█  ▀█▓░ ████▓▒░  ▒██▒ ░
+ * ░▒   ▒ ░ ▒░▒░▒░ ░▒▓███▀▒░ ▒░▒░▒░   ▒ ░░
+ *   ░   ░   ░ ▒ ▒░ ▒░▒   ░   ░ ▒ ▒░     ░
+ * ░ ░   ░ ░ ░ ░ ▒   ░    ░ ░ ░ ░ ▒    ░
+ *       ░     ░ ░   ░          ░ ░
+ *                        ░
+ *
+ * Interactive Bot, Gobot!
+ *
+ * Author : Vishal Telangre
+ * Source : http://github.com/vishaltelangre/gobot
+ * License: MIT
+ *
+ */
+
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
+	"github.com/vishaltelangre/gobot/readline"
 	"os"
 	"regexp"
 	"strings"
@@ -52,23 +72,22 @@ var (
 // mode as a response to the user's input. And, the cursor is handed-over back
 // to the user, so (s)he can continue to interact with the 'Gobot' forever.
 func handler() {
-	buffer := bufio.NewReader(os.Stdin)
 	for {
 		// displays the bot's specified name on the left of stdio screen
-		fmt.Printf("\x1b[01;33m%s > \x1b[0m", *id)
-		input, err := buffer.ReadString('\n')
-		if err != nil {
-			fmt.Println(err)
+		botName := fmt.Sprintf("\x1b[01;33m%s > \x1b[0m", *id)
+		inpLine := readline.ReadLine(&botName)
+		if inpLine == nil {
+			fmt.Println("There seems some issue.")
 			continue
 		}
-
-		// trim the input (remove spaces on right)
-		input = strings.TrimRight(input, "\r\n")
-
+		input = strings.TrimSpace(*inpLine)
+		if input != "" {
+			readline.AddHistory(input)
+		}
 		for _, spec := range specList {
 			if spec.matchCond(input) {
 				spec.invoker(input)
-				continue
+				break
 			}
 		}
 	}
