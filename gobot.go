@@ -62,6 +62,11 @@ var (
 	// specList is a slice of the 'spec' struts to store multiple
 	// extension-specific list of condition and logic functions.
 	specList = []spec{}
+
+	// -i Interactive
+	// -c Command string
+	isInteractive    *bool = flag.Bool("i", true, "Specify an interactive shell")
+	useCommandString *bool = flag.Bool("c", false, "Run commands from the command string")
 )
 
 // handler is the final stage function where all the logic is handled. It
@@ -71,7 +76,7 @@ var (
 // necessary then some textual information is displayed in the same interactive-
 // mode as a response to the user's input. And, the cursor is handed-over back
 // to the user, so (s)he can continue to interact with the 'Gobot' forever.
-func handler() {
+func interactiveQueryHandler() {
 	for {
 		// displays the bot's specified name on the left of stdio screen
 		botName := fmt.Sprintf("\x1b[01;33m%s > \x1b[0m", *id)
@@ -93,11 +98,16 @@ func handler() {
 	}
 }
 
-func init() {
-	// name is another command-line option to allow user to set the bot's
-	// name.
-	flag.StringVar(id, "name", "Gobo", "name your gobot")
+func cliQueryHandler(input string) {
+	for _, spec := range specList {
+		if spec.matchCond(input) {
+			spec.invoker(input)
+			break
+		}
+	}
+}
 
+func init() {
 	var defaultSpecs = []spec{
 		{
 			func(inp string) bool {
@@ -129,7 +139,6 @@ func init() {
 					for _, command := range spec.commands {
 						fmt.Printf("  * %s\n", command)
 					}
-					fmt.Println("-----------------------")
 				}
 			},
 
@@ -149,7 +158,22 @@ func init() {
 }
 
 func main() {
+	// "name" is another command-line option to allow user to set the bot's name.
+	flag.StringVar(id, "name", "Gobo", "name your gobot")
+
 	flag.Parse()
-	fmt.Printf("Howdy, greetings from %s.\n", *id)
-	handler()
+
+	if *useCommandString {
+		inp := strings.Join(flag.Args(), " ")
+		if trimmedInp := strings.TrimSpace(inp); trimmedInp != "" {
+			cliQueryHandler(trimmedInp)
+			return
+		}
+		flag.Usage()
+	} else if *isInteractive {
+		fmt.Printf("Howdy, greetings from %s.\n", *id)
+		interactiveQueryHandler()
+	} else {
+		flag.Usage()
+	}
 }
