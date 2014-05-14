@@ -2,9 +2,11 @@ Gobot
 ======
 
 **tl;dr**
+
 - I am your pet, baby! I can do anything for you, just tell me...
 - Sneak Peek Preview:
-  ![Gobot Screenshot](https://raw.github.com/vishaltelangre/gobot/master/gobot_preview.png)
+
+![Gobot Screenshot](https://raw.github.com/vishaltelangre/gobot/master/gobot_preview.png)
 
 ## Installation
 
@@ -26,7 +28,7 @@ $ gobot --version
 
 ## Usage
 
-- There are two modes of gobot, viz. an **interactive mode** and **command line mode (default)**.
+There are two modes of gobot, viz. an **interactive mode** and **command line mode (default)**.
 
 ### Interactive Mode
   - This starts a REPL-like interactive session, where you can feed commands to gobot and it will interactively respond to you.
