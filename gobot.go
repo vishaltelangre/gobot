@@ -46,18 +46,8 @@ type spec struct {
 }
 
 var (
-	// input is the input string entered by the user on stdio.
-	input string
-
-	// id is the command-line option can be passed in with the 'Gobot'
-	// command to set the name of the bot, which is displayed on stdio
-	// while user interacts with it. Default name of 'Gobot' is set as
-	// "Gobo".
-	id = flag.String("id", "Gobo", "name your bot")
-
-	// exitCommands are the different kinds of the commands which user can
-	// enter in the interactive-mode to quit from it.
-	exitCommands = []string{"quit", "exit", "bye", "q"}
+	gobotVersion = "Gobot - v0.0.1" // version of Gobot
+	input        string             // input is the input string entered by the user on stdio.
 
 	// specList is a slice of the 'spec' struts to store multiple
 	// extension-specific list of condition and logic functions.
@@ -65,8 +55,16 @@ var (
 
 	// -i Interactive
 	// -c Command string
-	isInteractive    *bool = flag.Bool("i", true, "Specify an interactive shell")
-	useCommandString *bool = flag.Bool("c", false, "Run commands from the command string")
+	isInteractive    *bool = flag.Bool("i", false, "Start Gobot in interactive mode")
+	useCommandString *bool = flag.Bool("c", true, "Make Gobot to execute commands directly from shell")
+
+	// 'name' is the command-line option can be passed in with the 'Gobot'
+	// command to set the name of the bot, which is displayed on stdio
+	// while user interacts with it. Default name of 'Gobot' is set as
+	// "Gobo".
+	id *string = flag.String("name", "Gobo", "Name your bot")
+
+	showVersion *bool = flag.Bool("version", false, "Show version info")
 )
 
 // handler is the final stage function where all the logic is handled. It
@@ -112,7 +110,7 @@ func init() {
 		{
 			func(inp string) bool {
 				lowerInp := strings.ToLower(inp)
-				return containsString(exitCommands, lowerInp)
+				return containsString([]string{"quit", "exit", "bye", "q"}, lowerInp)
 			},
 
 			func(inp string) {
@@ -122,7 +120,7 @@ func init() {
 
 			"Quit from the interactive session.",
 
-			exitCommands,
+			[]string{"quit", "exit", "bye", "q"},
 		},
 
 		{
@@ -158,10 +156,18 @@ func init() {
 }
 
 func main() {
-	// "name" is another command-line option to allow user to set the bot's name.
-	flag.StringVar(id, "name", "Gobo", "name your gobot")
-
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Println(gobotVersion)
+		return
+	}
+
+	if *isInteractive {
+		fmt.Printf("Howdy, greetings from %s.\n", *id)
+		interactiveQueryHandler()
+		return
+	}
 
 	if *useCommandString {
 		inp := strings.Join(flag.Args(), " ")
@@ -169,11 +175,7 @@ func main() {
 			cliQueryHandler(trimmedInp)
 			return
 		}
-		flag.Usage()
-	} else if *isInteractive {
-		fmt.Printf("Howdy, greetings from %s.\n", *id)
-		interactiveQueryHandler()
-	} else {
-		flag.Usage()
 	}
+
+	flag.Usage()
 }
